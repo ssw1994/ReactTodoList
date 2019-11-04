@@ -1,47 +1,52 @@
-label{
-    font-size:16px;
-    font-family: 'Helvetica';
-    color:gray;
+label {
+  font-size: 16px;
+  font-family: "Helvetica";
+  color: gray;
 }
-input{
-    font-size:14px;
-    font-family:Consolas;
+input {
+  font-size: 14px;
+  font-family: Consolas;
 }
-.action-button{
-    width:45%;
-    margin:5px;
-    color:white;
-    font-weight:bolder;
-    font-size:15px;
-    background:gray;
+.action-button {
+  width: 45%;
+  margin: 5px;
+  color: white;
+  font-weight: bolder;
+  font-size: 15px;
+  background: gray;
 }
-.fab-btn{
-    position: absolute;
-    padding: 0;
-    width: 50px;
-    height: 50px;
-    color: black;
-    font-weight: 700;
-    font-size: 25px;
-    border-radius: 50px;
-    bottom: 15px;
-    margin-left: 15px;
+.fab-btn {
+  position: absolute;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  color: black;
+  font-weight: 700;
+  font-size: 25px;
+  border-radius: 50px;
+  bottom: 15px;
+  margin-left: 15px;
 }
-.todo-box{
-    background:#fff;
-    border:2px solid green;
-    position:relative;
-    top:5px;
-    /* box-shadow: 5px 5px 10px; */
-    box-shadow: 0 0 10px 5px;
+.todo-box {
+  background: #fff;
+  border: 2px solid green;
+  position: relative;
+  top: 5px;
+  /* box-shadow: 5px 5px 10px; */
+  box-shadow: 0 0 10px 5px;
 }
-.todo-heading{
-    text-align:center;
-    font-size:20px;
-    color:green;
-    font-family:cursive;
-    padding:10px;
+.todo-heading {
+  text-align: center;
+  font-size: 20px;
+  color: green;
+  font-family: cursive;
+  padding: 10px;
 }
-.error{
-    border-color:red;
+.error {
+  border-color: red;
+}
+button[disabled] {
+  cursor: not-allowed !important;
+  background:gray !important;
+  opacity:0.5 !important; 
 }

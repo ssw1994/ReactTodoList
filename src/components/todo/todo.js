@@ -11,12 +11,23 @@ export default class Todo extends React.Component {
         this.state = {
             formData: props.data ? props.data : {
                 todoTitle: props.data && props.data.todoTitle ? props.data.todoTitle : "",
-                todoDate: props.data && props.data.todoDate ? props.data.todoDate : moment(new Date()).format('YYYY-MM-DD'),
+                todoDate: props.data && props.data.todoDate ? props.data.todoDate : null,
                 todoPriority: props.data && props.data.todoPriority ? props.data.todoPriority : "",
                 todoStatus: props.data && props.data.todoStatus ? props.data.todoStatus : "",
                 todoETA: props.data && props.data.todoETA ? props.data.todoETA : { HH: "", MM: "" },
             },
 
+            formErrors: {
+                todoTitle: false,
+                todoDate: false,
+                todoPriority: false,
+                todoStatus: false,
+                todoETA: {
+                    HH: false,
+                    MM: false
+                },
+                valid: false
+            },
 
             // other variables
 
@@ -34,6 +45,88 @@ export default class Todo extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentDidMount(){
+        try {
+            this.validateTodo();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    validateTodo() {
+        try {
+            let formErrors = { valid: true };
+            Object.keys(this.state.formData).forEach((x) => {
+                switch (x) {
+                    case "todoTitle":
+                        if (!this.state.formData.todoTitle) {
+                            formErrors[x] = false;
+                            formErrors['valid'] = false;
+                        }
+                        else
+                            formErrors[x] = true;
+                        break;
+                    case "todoDate":
+                        if (!this.state.formData.todoDate) {
+                            formErrors[x] = false;
+                        } else {
+                            if (this.state.formData.todoDate && moment(new Date()).isAfter(moment(this.state.formData.todoDate))) {
+                                formErrors[x] = false;
+                                formErrors['valid'] = false;
+                            } else {
+                                formErrors[x] = true;
+                            }
+                        }
+                        break;
+                    case "todoPriority":
+                        if (!this.state.formData.todoPriority) {
+                            formErrors[x] = false;
+                            formErrors['valid'] = false;
+                        }
+                        else
+                            formErrors[x] = true;
+                        break;
+                    case "todoStatus":
+                        if (!this.state.formData.todoStatus) {
+                            formErrors[x] = false;
+                            formErrors['valid'] = false;
+                        }
+                        else
+                            formErrors[x] = true;
+                        break;
+                    case "todoETA":
+                        formErrors[x] = {};
+                        Object.keys(this.state.formData.todoETA).forEach((y) => {
+                            switch (y) {
+                                case "HH":
+                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.HH < 0 || this.state.formData.todoETA.HH > 23)) || !this.state.formData.todoETA.HH) {
+                                        formErrors[x][y] = false;
+                                        formErrors['valid'] = false;
+                                    }
+                                    else
+                                        formErrors[x][y] = true;
+                                    break;
+                                case "MM":
+                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.MM < 0 || this.state.formData.todoETA.MM > 59)) || !this.state.formData.todoETA.MM) {
+                                        formErrors[x][y] = false;
+                                        formErrors['valid'] = false;
+                                    }
+                                    else
+                                        formErrors[x][y] = true;
+                                    break;
+                            }
+                        });
+                        break;
+                }
+            });
+            this.setState({ formErrors: formErrors });
+            console.log(this.state);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     updateTodo(e) {
@@ -92,7 +185,7 @@ export default class Todo extends React.Component {
 
                 this.setState({
                     formData: Object.assign(this.state.formData, { todoETA: todoETA })
-                });
+                }, () => { this.validateTodo() });
                 console.log(this.state.formData);
             } else {
                 obj = Object.assign(obj, {
@@ -100,13 +193,14 @@ export default class Todo extends React.Component {
                 });
                 this.setState({
                     formData: Object.assign(this.state.formData, obj)
-                });
+                }, () => { this.validateTodo() });
                 console.log(this.state.formData);
             }
         } catch (error) {
             console.error(error);
         }
     }
+
 
     render() {
         return (
@@ -118,15 +212,16 @@ export default class Todo extends React.Component {
                 <form>
                     <div className="form-group">
                         <label>Todo Title {this.state.todoTitle}</label>
-                        <input className="form-control" placeholder="Todo Title" name="todoTitle" value={this.state.formData.todoTitle} onChange={this.handleChange}></input>
+                        <input className={!this.state.formErrors.todoTitle ? "form-control error" : "form-control"} placeholder="Todo Title" name="todoTitle" value={this.state.formData.todoTitle} onChange={this.handleChange} required></input>
                     </div>
                     <div className="form-group">
                         <label>Todo Date</label>
-                        <input className="form-control" type="date" name="todoDate" value={this.state.formData.todoDate} onChange={this.handleChange}></input>
+                        <input className={!this.state.formErrors.todoDate ? "form-control error" : "form-control"} type="date" name="todoDate" value={this.state.formData.todoDate} onChange={this.handleChange} required></input>
                     </div>
                     <div className="form-group">
                         <label>Todo Priority</label>
-                        <select className="form-control" name="todoPriority" value={this.state.formData.todoPriority} onChange={this.handleChange}>
+                        <select className={!this.state.formErrors.todoPriority ? "form-control error" : "form-control"} name="todoPriority" value={this.state.formData.todoPriority} onChange={this.handleChange} required>
+                            <option value="">Select</option>
                             {
                                 this.state.priorities.map((x) => {
                                     return <option key={x.valueName} value={x.value}>{x.valueName}</option>
@@ -137,7 +232,8 @@ export default class Todo extends React.Component {
                     </div>
                     <div className="form-group">
                         <label>Todo Status</label>
-                        <select className="form-control" name="todoStatus" value={this.state.formData.todoStatus} onChange={this.handleChange}>
+                        <select className={!this.state.formErrors.todoStatus ? "form-control error" : "form-control"} name="todoStatus" value={this.state.formData.todoStatus} onChange={this.handleChange} required>
+                            <option value="">Select</option>
                             {
                                 this.state.status.map((x) => {
                                     return <option key={x.valueName} value={x.value} >{x.valueName}</option>
@@ -153,15 +249,15 @@ export default class Todo extends React.Component {
                         <div></div>
                         <div className="col-md-6 col-sm-6 col-xs-6 p0 form-group">
                             <label>HH</label>
-                            <input name="HH" max="23" value={this.state.formData.todoETA.HH} placeholder="HH" className={this.state.formData.todoETA.HH > 23 ? "form-control error" : "form-control"} type="number" onChange={this.handleChange}></input>
+                            <input name="HH" max="23" value={this.state.formData.todoETA.HH} placeholder="HH" className={!this.state.formErrors.todoETA.HH ? "form-control error" : "form-control"} type="number" onChange={this.handleChange} required></input>
                         </div>
                         <div className="col-md-6 col-sm-6 col-xs-6 p0 form-group">
                             <label>MM</label>
-                            <input name="MM" max="59" value={this.state.formData.todoETA.MM} placeholder="MM" className={this.state.formData.todoETA.MM > 59 ? "form-control error" : "form-control"} type="number" onChange={this.handleChange}></input>
+                            <input name="MM" max="59" value={this.state.formData.todoETA.MM} placeholder="MM" className={!this.state.formErrors.todoETA.MM ? "form-control error" : "form-control"} type="number" onChange={this.handleChange} required></input>
                         </div>
                     </div>
                     <div className="col-md-12 col-sm-12 col-xs-12 text-center">
-                        <button className="btn btn-primary action-button" onClick={(e) => this.updateTodo(e)} type="button">{!this.state.formData.id ? 'Add' : 'Update'}</button>
+                        <button className="btn btn-primary action-button" onClick={(e) => this.updateTodo(e)} type="button" disabled={!this.state.formErrors.valid}>{!this.state.formData.id ? 'Add' : 'Update'}</button>
                         <button className="btn btn-primary action-button" onClick={(e) => this.props.toggle(e)} type="button">Cancel</button>
                     </div>
                 </form>
