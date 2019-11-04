@@ -40,14 +40,15 @@ export default class Todo extends React.Component {
             status: [
                 { valueName: 'New', value: 1 },
                 { valueName: 'Active', value: 2 },
-                { valueName: 'Completed', value: 3 }
+                { valueName: 'Completed', value: 3 },
+                { valueName: 'OnHold', value: 4 }
             ],
         };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         try {
             this.validateTodo();
         } catch (error) {
@@ -102,7 +103,7 @@ export default class Todo extends React.Component {
                         Object.keys(this.state.formData.todoETA).forEach((y) => {
                             switch (y) {
                                 case "HH":
-                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.HH < 0 || this.state.formData.todoETA.HH > 23)) || !this.state.formData.todoETA.HH) {
+                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.HH < 0 || this.state.formData.todoETA.HH > 23)) || (this.state.formData.todoETA.HH == "" || this.state.formData.todoETA.HH == undefined || this.state.formData.todoETA.HH == null)) {
                                         formErrors[x][y] = false;
                                         formErrors['valid'] = false;
                                     }
@@ -110,7 +111,7 @@ export default class Todo extends React.Component {
                                         formErrors[x][y] = true;
                                     break;
                                 case "MM":
-                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.MM < 0 || this.state.formData.todoETA.MM > 59)) || !this.state.formData.todoETA.MM) {
+                                    if (!this.state.formData.todoETA || (this.state.formData.todoETA && (this.state.formData.todoETA.MM < 0 || this.state.formData.todoETA.MM > 59)) || (this.state.formData.todoETA.MM == "" || this.state.formData.todoETA.MM == undefined || this.state.formData.todoETA.MM == null)) {
                                         formErrors[x][y] = false;
                                         formErrors['valid'] = false;
                                     }

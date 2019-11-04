@@ -42,10 +42,10 @@ class App extends React.Component {
       console.error(error);
     }
   }
-  
+
   componentDidMount() {
     try {
-      setInterval(this.changeBK, 5000);
+      //setInterval(this.changeBK, 5000);
     } catch (error) {
       console.error(error);
     }
