@@ -1,0 +1,88 @@
+.todo-card {
+  background: white;
+  color: black;
+  border: 1px dotted green;
+  font-size: 14px;
+  font-family: Helvetica;
+  padding: 15px;
+  height: 260px;
+  overflow:auto;
+  box-shadow: 0 0 5px 5px rgb(240, 240, 231);
+}
+.todo-card div{
+  line-height: 2.5;
+}
+.todo-title {
+  font-family: cursive;
+  color: red;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.todo-date span {
+  margin-right: 5px;
+}
+.todo-ETA span {
+  margin-right: 5px;
+}
+.todo-actions {
+  text-align: center;
+  margin-top:10px;
+}
+.todo-actions span {
+  margin: 8px;
+  cursor:pointer;
+  font-weight: bolder;
+}
+.todo-actions span i:hover{
+    color:red;
+    cursor:pointer;
+}
+.todo-actions .btns {
+  position: relative;
+  left: -15px;
+}
+
+.td div{
+  float:left;
+}
+
+.tp .check{
+  width:15px;
+  height:15px;
+  border:0.5px gray;
+  float:left;
+  margin-right:15px;
+  position: relative;
+  top:5px;
+}
+.tp .p-val{
+  width:70%;
+}
+
+.completed,.black{
+  background-color:black;
+}
+.active,.green{
+  background-color:green;
+}
+.new,.blue{
+  background-color:blue;
+}
+.red{
+  background-color:red;
+}
+.red-timer{
+  color:red;
+  font-weight:bolder;
+  font-family:Consolas;
+  font-size:15px;
+}
+.green-timer{
+  color:green;
+  font-weight:bolder;
+  font-family:Consolas;
+  font-size:15px;
+}
