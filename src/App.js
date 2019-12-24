@@ -74,9 +74,22 @@ class App extends React.Component {
     try {
       let target = event.target;
       let name = target.name;
-      this.setState({ sortOptions: { sortby: target.value } });
+      let state = Object.assign({}, this.state);
+      state.sortOptions.sortby = target.value;
+      this.setState(state);
       console.log(target.value, name)
-      channel.sortObserver.next(target.value);
+      channel.sortObserver.next(this.state.sortOptions);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  changeOrder(event) {
+    try {
+      let state = Object.assign({}, this.state);
+      state.sortOptions.sortOrder == 'ASC' ? state.sortOptions.sortOrder = 'DSC' : state.sortOptions.sortOrder = 'ASC';
+      this.setState(state);
+      channel.sortObserver.next(this.state.sortOptions);
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +117,7 @@ class App extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-2 col-sm-2 col-xs-12">
+            <div className="col-md-2 col-sm-2 col-xs-6">
               <select className="form-control" name="sortby" value={this.state.sortOptions.sortby} onChange={this.handleSort}>
                 <option value="">Sort By</option>
                 {
@@ -113,6 +126,9 @@ class App extends React.Component {
                   })
                 }
               </select>
+            </div>
+            <div className="col-md-1 col-sm-1 col-xs-6">
+              <button className="btn btn-primary" onClick={(e) => this.changeOrder(e)}>{this.state.sortOptions.sortOrder}</button>
             </div>
 
             {/* <form>

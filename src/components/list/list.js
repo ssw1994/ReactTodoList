@@ -56,16 +56,26 @@ export default class List extends React.Component {
 
     sortList(a, b) {
         try {
-            console.log(this.state.sorter);
+            console.log(this.state.sorter && this.state.sorter.sortby);
             if (this.state.sorter) {
-                let A = a[this.state.sorter].toUpperCase(); // ignore upper and lowercase
-                let B = b[this.state.sorter].toUpperCase(); // ignore upper and lowercase
-                if (A < B) {
-                    return -1;
+                let A = a[this.state.sorter.sortby].toUpperCase(); // ignore upper and lowercase
+                let B = b[this.state.sorter.sortby].toUpperCase(); // ignore upper and lowercase
+                if(this.state.sorter && this.state.sorter.sortOrder == 'ASC'){
+                    if (A < B) {
+                        return -1;
+                    }
+                    if (A > B) {
+                        return 1;
+                    }
+                }else{
+                    if (A > B) {
+                        return -1;
+                    }
+                    if (A < B) {
+                        return 1;
+                    }
                 }
-                if (A > B) {
-                    return 1;
-                }
+                
 
                 // names must be equal
                 return 0;
