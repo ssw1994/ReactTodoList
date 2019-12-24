@@ -75,7 +75,8 @@ class App extends React.Component {
       let target = event.target;
       let name = target.name;
       this.setState({ sortOptions: { sortby: target.value } });
-      console.log(target, name)
+      console.log(target.value, name)
+      channel.sortObserver.next(target.value);
     } catch (error) {
       console.error(error);
     }

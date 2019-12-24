@@ -16,12 +16,14 @@ export default class Card extends React.Component {
         this.state = {
             todo: this.props.todo,
             priorities: [
+                { valueName: 'Select', value: '' },
                 { valueName: 'High', value: 1 },
                 { valueName: 'Medium', value: 2 },
                 { valueName: 'Low', value: 3 }
             ],
 
             status: [
+                { valueName: 'Select', value: '' },
                 { valueName: 'New', value: 1 },
                 { valueName: 'Active', value: 2 },
                 { valueName: 'Completed', value: 3 },
@@ -59,7 +61,7 @@ export default class Card extends React.Component {
                         }
                         if (todo.todoETA.HH == 0 && todo.todoETA.MM == 0) {
                             this.handleTimer(null, 'stop');
-                        }else{
+                        } else {
                             date.minutes(date.minutes() - 1);
                         }
                         db.updateDB('tbltodo', todo).then(
@@ -239,7 +241,7 @@ export default class Card extends React.Component {
                 </div>
                 <div className="todo-ETA">
                     <span><i className="fa fa-clock-o fa-lg" aria-hidden="true"></i></span>
-                    <span className={this.state.todo.todoStatus == 2 && this.state.todo.todoETA && this.state.todo.todoETA.HH == 0 && this.state.todo.todoETA.MM == 0 ? 'red-timer ' + (this.state.todo.todoStatus == 2 ? "blink" : null): 'green-timer ' + (this.state.todo.todoStatus == 2 ? "blink" : null)}>{this.state.todo && this.state.todo.todoETA ?
+                    <span className={this.state.todo.todoStatus == 2 && this.state.todo.todoETA && this.state.todo.todoETA.HH == 0 && this.state.todo.todoETA.MM == 0 ? 'red-timer ' + (this.state.todo.todoStatus == 2 ? "blink" : null) : 'green-timer ' + (this.state.todo.todoStatus == 2 ? "blink" : null)}>{this.state.todo && this.state.todo.todoETA ?
                         this.state.todo.todoETA.HH + " HH :  " + this.state.todo.todoETA.MM + " MM" : ""}
                     </span>
                 </div>

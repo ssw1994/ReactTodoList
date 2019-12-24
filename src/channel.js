@@ -4,9 +4,11 @@ let channel = (() => {
 
     let dbObserver = new Subject();
     let editObserver = new Subject();
+    let sortObserver = new Subject();
     return {
         dbObserver,
-        editObserver
+        editObserver,
+        sortObserver
     }
 })();
 
